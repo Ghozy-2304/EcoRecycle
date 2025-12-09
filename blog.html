@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="Assets/Logo.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+      defer
+    ></script>
+    <title>Blog</title>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-800">
+    <!-- NAVBAR -->
+    <header
+      x-data="navbar()"
+      class="bg-white shadow-sm fixed inset-x-0 top-0 z-50 py-1"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="h-16 flex items-center justify-between">
+          <!-- Left: Logo -->
+          <div class="flex items-center">
+            <a href="index.html" class="inline-flex items-center gap-3">
+              <!-- gunakan path file upload -->
+              <img
+                src="Assets/Logo.png"
+                alt="EcoRecycle"
+                class="w-9 h-9 object-contain"
+              />
+              <span class="font-semibold text-gray-800 text-2xl"
+                >EcoRecycle</span
+              >
+            </a>
+          </div>
+
+          <!-- Center: Desktop Nav Links -->
+          <!-- Center: Desktop Nav Links -->
+          <nav
+            class="hidden md:flex space-x-5 lg:space-x-10 items-center text-lg absolute left-1/2 -translate-x-1/2"
+          >
+            <a href="index.html" class="text-gray-700 hover:text-gray-900"
+              >Home</a
+            >
+            <a href="#" class="text-gray-700 hover:text-gray-900">Blog</a>
+            <a href="contact.html" class="text-gray-700 hover:text-gray-900"
+              >Contact</a
+            >
+          </nav>
+
+          <!-- Right: Get Started (desktop) + Hamburger (mobile) -->
+          <div class="flex items-center gap-2">
+            <a
+              href="login.html"
+              class="hidden md:inline-block px-4 py-2 rounded-full text-md hover:text-emerald-600"
+              >Masuk</a
+            >
+            <a
+              href="register.html"
+              class="hidden md:inline-block px-4 py-2 rounded-lg bg-emerald-600 text-white text-md hover:brightness-90"
+            >
+              Daftar Gratis
+            </a>
+
+            <!-- Hamburger for mobile -->
+            <div class="md:hidden" x-data>
+              <button
+                @click="openMobile = !openMobile; $dispatch('toggle-mobile', openMobile)"
+                x-bind:aria-expanded="openMobile"
+                class="p-2 rounded-md focus:outline-none"
+                x-bind:class="openMobile ? 'text-gray-900' : 'text-gray-700'"
+              >
+                <template x-if="!openMobile">
+                  <!-- hamburger -->
+                  <svg
+                    class="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  </svg>
+                </template>
+                <template x-if="openMobile">
+                  <!-- X -->
+                  <svg
+                    class="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </template>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Drawer (slide from left) -->
+      <div
+        x-data
+        x-show="openMobile"
+        x-cloak
+        x-on:toggle-mobile.window="openMobile = $event.detail"
+        @keydown.escape.window="openMobile = false"
+        class="md:hidden"
+      >
+        <!-- backdrop -->
+        <div
+          x-show="openMobile"
+          x-transition.opacity
+          class="fixed inset-0 bg-black/30"
+          @click="openMobile = false"
+        ></div>
+
+        <!-- drawer -->
+        <aside
+          x-show="openMobile"
+          x-transition:enter="transform transition ease-out duration-300"
+          x-transition:enter-start="-translate-x-full"
+          x-transition:enter-end="translate-x-0"
+          x-transition:leave="transform transition ease-in duration-200"
+          x-transition:leave-start="translate-x-0"
+          x-transition:leave-end="-translate-x-full"
+          @click.away="openMobile = false"
+          class="fixed top-0 left-0 h-full w-64 bg-white shadow-xl z-50"
+        >
+          <div class="p-4 flex items-center justify-between border-b">
+            <a href="#hero" class="inline-flex items-center gap-3">
+              <img
+                src="Assets/Logo.png"
+                alt="EcoRecycle"
+                class="w-8 h-8 object-contain"
+              />
+              <span class="font-semibold text-gray-800">EcoRecycle</span>
+            </a>
+          </div>
+
+          <nav class="p-4 space-y-2">
+            <!-- Other page -->
+            <div class="mt-4">
+              <h3
+                class="text-xs font-semibold text-gray-500 uppercase px-1 mb-2"
+              >
+                Other page
+              </h3>
+              <a
+                href="index.html"
+                class="block px-2 py-2 rounded hover:bg-gray-50"
+                >Home</a
+              >
+              <a href="#" class="block px-2 py-2 rounded hover:bg-gray-50"
+                >Blog</a
+              >
+              <a
+                href="contact.html"
+                class="block px-2 py-2 rounded hover:bg-gray-50"
+                >Contact</a
+              >
+            </div>
+
+            <div class="mt-6">
+              <a
+                href="register.html"
+                class="block text-center px-3 py-2 rounded-full bg-emerald-600 text-white"
+                >Get Started</a
+              >
+            </div>
+          </nav>
+        </aside>
+      </div>
+    </header>
+    <main class="">
+      <!-- Header -->
+      <section class="text-center mt-24 py-16 px-4">
+        <h1 class="text-5xl font-bold mb-5">Recycling Blog</h1>
+        <p class="text-gray-600 text-lg">
+          Tips, Panduan, dan cerita untuk menginspirasi perjalanan daur ulang
+          Anda
+        </p>
+      </section>
+      <section class="mb-20">
+        <div x-data="articlePage()" class="max-w-6xl mx-auto px-4">
+          <!-- Search -->
+          <div
+            class="flex justify-start mb-6 bg-white rounded-2xl px-6 border max-w-xl mx-auto"
+          >
+            <img src="Assets/Search.png" class="w-4 h-4 mt-4" />
+            <input
+              x-model="search"
+              type="text"
+              placeholder="Cari artikel..."
+              class="w-full rounded-xl p-3 outline-none"
+            />
+          </div>
+          <!-- Category Filter Buttons -->
+          <div class="flex flex-wrap justify-center gap-3 mb-10">
+            <template x-for="cat in categories">
+              <button
+                @click="activeCategory = cat"
+                x-text="cat"
+                :class="activeCategory === cat ? 'bg-green-600 text-white' : 'bg-white'"
+                class="px-4 py-2 rounded-xl border shadow-sm hover:bg-green-100 hover:text-black transition"
+              ></button>
+            </template>
+          </div>
+
+          <!-- Main Article -->
+          <template x-if="filteredArticles().length > 0">
+            <div
+              @click="openArticle(filteredArticles()[0])"
+              class="bg-white rounded-xl shadow-md overflow-hidden mb-16 cursor-pointer max-w-4xl mx-auto flex flex-col md:flex-row h-auto md:h-70 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+            >
+              <!-- Gambar -->
+              <img
+                :src="filteredArticles()[0].image"
+                class="w-full h-48 sm:h-56 md:w-[55%] md:h-auto lg:w-[60%] object-cover object-top"
+              />
+
+              <!-- Konten -->
+              <div class="p-6 w-full md:w-1/2">
+                <span
+                  class="text-sm px-3 py-1 rounded-full bg-green-100 text-green-700 font-medium"
+                  x-text="filteredArticles()[0].category"
+                ></span>
+
+                <h2
+                  class="text-2xl font-bold mt-3 mb-2"
+                  x-text="filteredArticles()[0].title"
+                ></h2>
+
+                <p
+                  class="text-gray-600 mb-4"
+                  x-text="filteredArticles()[0].description"
+                ></p>
+
+                <!-- Footer -->
+                <div
+                  class="flex justify-between items-center mt-4 text-gray-500 text-sm"
+                >
+                  <div class="flex items-center gap-2">
+                    <!-- Icon profile -->
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-4 h-4"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15.75 4.75a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 22.5a8.25 
+              8.25 0 1115 0v.75H4.5v-.75z"
+                      />
+                    </svg>
+                    <span>Sarah Green</span>
+                  </div>
+
+                  <div class="flex items-center gap-1">
+                    <!-- Icon jam -->
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-4 h-4"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 8v6l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <span>5 min read</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <!-- Grid Articles -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <template x-for="(article, index) in filteredArticles().slice(1)">
+              <div
+                @click="openArticle(article)"
+                class="group bg-white shadow-md rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+              >
+                <img
+                  :src="article.image"
+                  class="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+
+                <div class="p-5 h-">
+                  <span
+                    class="text-sm px-3 py-1 rounded-full bg-green-100 text-green-700 font-medium"
+                    x-text="article.category"
+                  ></span>
+
+                  <h3
+                    class="font-bold text-lg mt-3 mb-2"
+                    x-text="article.title"
+                  ></h3>
+
+                  <p
+                    class="text-gray-500 text-sm mb-4"
+                    x-text="article.description"
+                  ></p>
+
+                  <div
+                    class="flex justify-between items-center mt-4 text-gray-500 text-sm"
+                  >
+                    <div class="flex items-center gap-2">
+                      <!-- Icon profile -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-4 h-4"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M15.75 4.75a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 22.5a8.25 
+                                     8.25 0 1115 0v.75H4.5v-.75z"
+                        />
+                      </svg>
+                      <span>Sarah Green</span>
+                    </div>
+
+                    <div class="flex items-center gap-1">
+                      <!-- Icon jam -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-4 h-4"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M12 8v6l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      <span>5 min read</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
+          <div
+            x-show="showPopup"
+            x-transition.opacity
+            class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4"
+            @click="showPopup=false"
+          >
+            <div
+              @click.stop
+              x-transition.scale
+              class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden relative animate-fadeIn max-h-[90vh] flex flex-col"
+            >
+              <button
+                @click="showPopup = false"
+                class="absolute top-4 right-4 bg-white/90 h-9 w-9 rounded-full shadow-md text-gray-700 hover:bg-white hover:shadow-lg transition z-20"
+              >
+                ✕
+              </button>
+              <!-- Scrollable Content -->
+              <div class="overflow-y-auto" id="popupScroll">
+                <!-- Header Image -->
+                <div
+                  class="relative h-60 md:h-72 w-full shrink-0 overflow-hidden"
+                >
+                  <img
+                    :src="selectedArticle?.image"
+                    class="w-full h-full object-cover object-top"
+                  />
+                </div>
+                <div class="p-7">
+                  <!-- Category -->
+                  <span
+                    x-text="selectedArticle?.category"
+                    class="text-sm px-4 py-1 rounded-full bg-green-100 text-green-700 font-medium"
+                  ></span>
+
+                  <!-- Title -->
+                  <h2
+                    x-text="selectedArticle?.title"
+                    class="text-3xl font-bold mt-4 mb-3 leading-tight"
+                  ></h2>
+
+                  <!-- Long Text Only -->
+                  <p
+                    x-text="selectedArticle?.longText"
+                    class="text-gray-700 leading-relaxed whitespace-pre-line text-[15px]"
+                  ></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- ================= POPUP DETAIL ARTIKEL (DESAIN BARU) ================= -->
+    </main>
+    <footer class="bg-[#1E293B] text-white px-10 py-14">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-16">
+        <!-- LEFT SIDE (1/2 width) -->
+        <div class="md:w-1/2">
+          <div class="flex items-center gap-3 mb-5">
+            <img src="Assets/Logo.png" class="w-12 h-12" />
+            <h2 class="text-2xl font-semibold">EcoRecycle</h2>
+          </div>
+
+          <p class="text-gray-300 leading-relaxed mb-8">
+            inisiatif ramah lingkungan yang berfokus untuk menciptakan solusi
+            berkelanjutan untuk kehidupan sehari-hari. Dengan menggabungkan
+            desain modern, teknologi bersih, dan prinsip daur ulang.
+          </p>
+
+          <div class="space-y-4 text-gray-300">
+            <div class="flex items-center gap-3">
+              <img src="Assets/email.png" class="w-5" />
+              <span>info@ecorecycle.com</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <img src="Assets/Telfon.png" class="w-5" />
+              <span>+62 893-940-830</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <img src="Assets/Maps.png" class="w-5" />
+              <span>123 green street, tangerang</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDE (3 COLUMNS) -->
+        <div class="md:w-1/2 grid grid-cols-1 md:grid-cols-3 gap-10">
+          <!-- COLUMN 1: PRODUCT -->
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Product</h3>
+            <ul class="space-y-2 text-gray-300">
+              <li>Calculator</li>
+              <li>Blog</li>
+              <li>Resources</li>
+              <li>Comunity</li>
+            </ul>
+          </div>
+
+          <!-- COLUMN 2 & 3 MERGED (INPUT LARGE) -->
+          <div class="md:col-span-2">
+            <div class="grid grid-cols-2 gap-6">
+              <!-- Company -->
+              <div>
+                <h3 class="text-lg font-semibold mb-4">Company</h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>About Us</li>
+                  <li>Contact</li>
+                  <li>Career</li>
+                  <li>Press</li>
+                </ul>
+              </div>
+
+              <!-- Legal -->
+              <div>
+                <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>Privacy Policy</li>
+                  <li>Term Of Services</li>
+                  <li>Cookie Policy</li>
+                  <li>Disclaimer</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Large message input -->
+            <div x-data="{ message: '' }" class="mt-6 flex items-center">
+              <button
+                @click="console.log('Message sent:', message); message=''"
+                class="bg-green-500 p-3 rounded-xl mr-3"
+              >
+                <img src="Assets/send.png" class="w-5" />
+              </button>
+
+              <input
+                type="text"
+                placeholder="Enter your message"
+                x-model="message"
+                class="w-full px-4 py-2 rounded-lg bg-transparent border border-gray-400 focus:outline-none"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM LINE -->
+      <hr class="border-gray-600 my-8" />
+
+      <div
+        class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4"
+      >
+        <p class="text-gray-400 text-sm">
+          © 2025 EcoRecycle. All rights reserved.
+        </p>
+
+        <!-- Social Media Icons -->
+        <div class="flex gap-6">
+          <img src="Assets/facebook.png" class="w-6" />
+          <img src="Assets/instagram.png" class="w-6" />
+          <img src="Assets/github.png" class="w-6" />
+          <img src="Assets/linkedin.png" class="w-6" />
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Alpine root state for navbar (keperluan global small)
+      function navbar() {
+        return {
+          openMobile: false,
+        };
+      }
+
+      function articlePage() {
+        return {
+          search: "",
+          activeCategory: "All",
+          showPopup: false,
+          selectedArticle: null,
+
+          categories: [
+            "All",
+            "Tips & Tricks",
+            "Education",
+            "Impact",
+            "Lifestyle",
+          ],
+
+          articles: [
+            {
+              title: "10 Barang yang Tidak Anda Sadari Bisa Didaur Ulang",
+              category: "Tips & Tricks",
+              description:
+                "Temukan barang-barang mengejutkan yang bisa didaur ulang dan jauhkan dari tempat pembuangan sampah.",
+              longText: `♻️ 1. Sikat Gigi Bekas
+
+                Sebagian besar sikat gigi terbuat dari plastik yang bisa didaur ulang. Anda bisa mengumpulkannya lalu mengirim ke program daur ulang khusus, atau mengubahnya menjadi alat pembersih kecil untuk sudut sulit.
+
+                ♻️ 2. Bola Lampu (Lampu Bohlam)
+
+                Beberapa jenis lampu seperti CFL atau LED bisa didaur ulang dengan memisahkan kaca, logam, dan komponennya. Banyak pusat daur ulang menyediakan drop box khusus lampu.
+
+                ♻️ 3. Kaset CD / DVD
+
+                CD dan DVD mengandung polikarbonat yang dapat diolah kembali. Selain itu, banyak orang kini mencarinya untuk kerajinan dekoratif.
+
+                ♻️ 4. Pakaian yang Tidak Layak Pakai
+
+                Baju yang sobek parah atau kusut tetap bisa didaur ulang menjadi serat tekstil baru, kain pel, hingga isian bantal.
+
+                ♻️ 5. Ponsel dan Perangkat Elektronik Kecil
+
+                Perangkat kecil seperti charger, earphone, atau handphone lama mengandung logam berharga seperti tembaga dan emas yang bisa diekstraksi kembali.
+
+                ♻️ 6. Minyak Goreng Bekas
+
+                Minyak jelantah bisa diolah menjadi biodiesel atau lilin. Di beberapa kota, sudah ada bank sampah minyak jelantah yang menerima penukaran poin.
+
+                ♻️ 7. Kardus Telur
+
+                Kardus telur dari bahan pulp kertas mudah dihancurkan dan diproduksi kembali menjadi kertas baru atau kompos organik.
+
+                ♻️ 8. Sikat Botol / Spons Cuci Piring
+
+                Meski terlihat kotor, sikat atau spons tertentu bisa didaur ulang menjadi plastik kualitas lebih rendah, atau digunakan ulang untuk membersihkan area luar rumah.
+
+                ♻️ 9. Mainan Plastik Lama
+
+                Jika bahan mainan berupa plastik PP atau HDPE, mainan tersebut dapat dihancurkan dan dilebur kembali. Banyak pengrajin daur ulang menerima mainan bekas sebagai bahan baku.
+
+                ♻️ 10. Kertas Bungkus Kado
+
+                Sebagian besar kertas kado dapat didaur ulang selama tidak mengandung glitter atau foil. Kertas polos atau bermotif biasa mudah diolah menjadi kertas baru.
+
+                🌿 Kesimpulan
+
+                Masih banyak barang sehari-hari yang sebenarnya dapat didaur ulang, tetapi sering tidak kita sadari. Dengan mengetahui jenis-jenisnya, kita bisa mengurangi sampah dan membantu menjaga lingkungan.s`,
+              image: "Assets/Img-blog-4.png",
+            },
+            {
+              title: "Panduan Lengkap Simbol Daur Ulang Plastik",
+              category: "Education",
+              description:
+                "Memahami angka dan logo yang terdapat pada produk plastik dan artinya.",
+              longText: `♻️ Pendahuluan
+
+              Setiap kemasan plastik biasanya memiliki simbol segitiga dengan angka di tengahnya. Simbol tersebut bukan hiasan, melainkan kode penting untuk mengetahui jenis plastik, keamanan penggunaan, dan kemudahannya didaur ulang.
+              Memahami kode ini membantu kita memilah sampah dengan benar dan mendukung proses daur ulang.
+
+              Berikut panduan lengkapnya.
+
+              1. PET / PETE (1) – Polyethylene Terephthalate
+
+              Contoh: botol air mineral, botol minuman bersoda.
+              Dapat didaur ulang: ✔ Sangat mudah
+              Catatan: Idealnya hanya untuk sekali pakai karena dapat menyerap aroma dan bahan kimia.
+
+              2. HDPE (2) – High-Density Polyethylene
+
+              Contoh: galon air, botol deterjen, botol shampoo.
+              Dapat didaur ulang: ✔ Mudah
+              Catatan: Lebih kuat dari PET dan aman untuk dipakai berulang.
+
+              3. PVC (3) – Polyvinyl Chloride
+
+              Contoh: pipa air, plastik transparan makanan, beberapa mainan.
+              Dapat didaur ulang: ❌ Sulit
+              Catatan: Jarang didaur ulang karena mengandung zat kimia yang dapat berbahaya jika dibakar.
+
+              4. LDPE (4) – Low-Density Polyethylene
+
+              Contoh: plastik kresek, bungkus makanan, kantong belanja.
+              Dapat didaur ulang: ✔ Bisa, tapi tidak semua fasilitas menerima
+              Catatan: Kuat dan fleksibel, namun sering mencemari lingkungan karena penggunaan sekali pakai.
+
+              5. PP (5) – Polypropylene
+
+              Contoh: tutup botol, kotak makanan, sedotan, ember.
+              Dapat didaur ulang: ✔ Bisa
+              Catatan: Tahan panas, digunakan pada wadah makanan yang sering dipanaskan.
+
+              6. PS (6) – Polystyrene
+
+              Contoh: styrofoam, gelas plastik bening, tray daging.
+              Dapat didaur ulang: ❌ Sangat sulit
+              Catatan: Ringan tetapi rapuh dan dapat menghasilkan mikroplastik.
+
+              7. Other (7) – Plastik Campuran
+
+              Contoh: botol bayi, DVD, galon PC, barang campuran.
+              Dapat didaur ulang: ❌ Sulit karena komposisinya bercampur
+              Catatan: Tidak termasuk 1–6, sehingga proses daur ulangnya lebih kompleks.
+
+              Tips Penting Saat Mengelola Plastik
+
+              ✔ Cuci kemasan sebelum membuangnya agar tidak mencemari jenis plastik lain.
+              ✔ Keringkan sebelum dimasukkan ke tempat daur ulang.
+              ✔ Jangan mencampur plastik keras dengan plastik fleksibel.
+              ✔ Gunakan botol atau kantong yang berlabel 1, 2, atau 5 jika ingin lebih ramah lingkungan.
+              ✔ Kurangi penggunaan plastik sekali pakai.
+
+              Kesimpulan
+
+              Simbol daur ulang pada plastik memberikan petunjuk penting tentang jenis bahan, keamanan, dan potensi untuk didaur ulang. Dengan memahami kode ini, kita bisa membuat keputusan yang lebih bijaksana dalam memilih produk dan mengelola sampah, sehingga membantu mengurangi beban lingkungan.`,
+              image: "Assets/Img-blog-1.png",
+            },
+            {
+              title: "Bagaimana Upaya Daur Ulang Anda Melawan Perubahan Iklim",
+              category: "Impact",
+              description:
+                "Pelajari hubungan langsung antara daur ulang dan pengurangan emisi karbon global.",
+              longText: `Perubahan iklim adalah tantangan terbesar yang sedang dihadapi dunia saat ini. Suhu bumi terus meningkat, cuaca semakin ekstrem, dan berbagai ekosistem mulai terganggu. Namun, kabar baiknya: setiap orang sebenarnya bisa berkontribusi, dan salah satu cara termudah adalah dengan mendaur ulang.
+
+              Walaupun terlihat sederhana, daur ulang memiliki dampak besar terhadap lingkungan dan membantu memperlambat perubahan iklim.
+
+              1. Mengurangi Emisi Karbon dari Produksi Bahan Baru
+
+              Setiap kali kita mendaur ulang plastik, kertas, atau logam, kita membantu mengurangi kebutuhan produksi bahan-bahan baru dari alam.
+              Proses pembuatan material baru seperti plastik, aluminium, dan kaca membutuhkan:
+
+              Energi besar
+
+              Bahan bakar fosil
+
+              Proses pemanasan yang mengeluarkan CO₂ dalam jumlah tinggi
+
+              Sebagai contoh, mendaur ulang aluminium menghemat hingga 95% energi dibandingkan membuat aluminium baru. Semakin sedikit energi yang digunakan, semakin rendah emisi karbon yang dilepaskan ke atmosfer.
+
+              2. Menekan Jumlah Sampah di Tempat Pembuangan Akhir (TPA)
+
+              Sampah yang menumpuk di TPA tidak hanya memakan lahan, tetapi juga menghasilkan gas metana (CH₄) — gas rumah kaca yang 25 kali lebih kuat dibandingkan CO₂.
+              Sampah organik seperti makanan, tisu, atau kayu akan membusuk tanpa oksigen dan memproduksi metana.
+
+              Dengan mendaur ulang benda-benda seperti:
+
+              botol plastik
+
+              kaca
+
+              kardus
+
+              aluminium
+
+              kertas
+
+              … kita mengurangi volume sampah yang masuk ke TPA, sehingga emisi metana berkurang drastis.
+
+              3. Mengurangi Eksploitasi Sumber Daya Alam
+
+              Proses ekstraksi bahan mentah, seperti menambang logam atau menebang kayu, menghasilkan jejak karbon besar karena:
+
+              penggunaan alat berat
+
+              transportasi jarak jauh
+
+              konsumsi listrik dan solar yang tinggi
+
+              Dengan mendaur ulang, kita memperpanjang umur bahan sehingga permintaan terhadap bahan mentah berkurang. Dampaknya:
+
+              hutan lebih terjaga
+
+              ekosistem tetap stabil
+
+              karbon yang diserap pohon tetap berada di atmosfer dalam jumlah lebih sedikit
+
+              4. Mendorong Ekonomi Sirkular yang Ramah Lingkungan
+
+              Daur ulang adalah bagian dari ekonomi sirkular, yaitu sistem yang memaksimalkan penggunaan kembali barang agar tidak langsung dibuang.
+              Ekonomi sirkular membuat perusahaan lebih kreatif dalam menggunakan bahan ramah lingkungan dan mengurangi polusi dalam jangka panjang. Semakin banyak masyarakat yang mendaur ulang, semakin kuat dorongan ke industri untuk memproduksi barang yang mudah diolah kembali.
+
+              5. Kebiasaan Masyarakat Bisa Memperbesar Dampak
+
+              Satu orang yang mendaur ulang satu botol mungkin terdengar kecil.
+              Namun, bayangkan:
+
+              1 orang → 1 botol/hari = 365 botol/tahun
+
+              1.000 orang → 365.000 botol/tahun
+
+              1 juta orang → 365 juta botol/tahun
+
+              Kebiasaan kecil ini, jika dilakukan bersama-sama, menghasilkan efek besar bagi lingkungan dan pengurangan emisi global.
+
+              6. Dampak Langsung Daur Ulang Terhadap Iklim
+
+              Berikut beberapa contoh nyata:
+
+              Mendaur ulang 1 ton kertas dapat menghemat energi yang setara untuk menyalakan rumah selama 6 bulan.
+
+              Mendaur ulang kaca dapat mengurangi emisi CO₂ hingga 30%.
+
+              Mendaur ulang plastik dapat mengurangi gas rumah kaca dari pabrik petrokimia.
+
+              Setiap tindakan sederhana berkontribusi terhadap perhitungan global.
+
+              Kesimpulan: Daur Ulang = Aksi Kecil, Dampak Besar
+
+              Daur ulang bukan hanya soal memilah sampah — ini adalah bagian penting dari cara kita melawan perubahan iklim.
+              Dengan mendaur ulang, Anda membantu:
+
+              ✨ Mengurangi emisi karbon
+              ✨ Menekan gas metana dari TPA
+              ✨ Menjaga sumber daya alam
+              ✨ Mengurangi polusi
+              ✨ Mendukung ekonomi yang lebih hijau
+
+              Tidak perlu menunggu teknologi canggih atau kebijakan besar — perubahan bisa dimulai dari rumah Anda sendiri hari ini.`,
+              image: "Assets/Img-blog-2.png",
+            },
+            {
+              title: "Panduan Lengkap Daur Ulang Sampah Makanan",
+              category: "Lifestyle",
+              description:
+                "Kurangi sampah dengan memahami metode daur ulang makanan yang tepat.",
+              longText: `Sampah makanan adalah salah satu penyumbang terbesar limbah rumah tangga. Banyak orang tidak menyadari bahwa sisa makanan yang dibuang begitu saja bisa berdampak besar pada lingkungan — mulai dari meningkatnya gas metana di tempat pembuangan akhir hingga pemborosan energi dan air yang digunakan untuk memproduksi makanan tersebut.
+
+              Namun, kabar baiknya: sampah makanan bisa didaur ulang dengan mudah dan malah bermanfaat bagi lingkungan maupun kehidupan sehari-hari. Panduan ini akan membantu Anda memahami cara mengolah sampah makanan agar tidak sia-sia.
+
+              1. Apa Saja yang Termasuk Sampah Makanan?
+
+              Sampah makanan adalah semua sisa bahan yang berasal dari proses makan atau memasak, seperti:
+
+              Kulit buah dan sayur
+
+              Sisa nasi atau roti
+
+              Tulang hewan
+
+              Cangkang telur
+
+              Ampas kopi dan teh
+
+              Daun teh celup
+
+              Sisa sayuran
+
+              Makanan basi yang tidak bisa dimakan lagi
+
+              Sebagian besar dari ini bisa diolah kembali jika ditangani dengan benar.
+
+              2. Mengapa Sampah Makanan Perlu Didaur Ulang?
+
+              Ada beberapa alasan penting:
+
+              ✓ Mengurangi emisi gas metana di TPA
+
+              Sampah makanan yang membusuk di tempat pembuangan menghasilkan metana — salah satu gas rumah kaca paling berbahaya.
+
+              ✓ Menghasilkan kompos organik
+
+              Sampah makanan dapat berubah menjadi pupuk yang sangat baik untuk tanaman.
+
+              ✓ Mengurangi penggunaan pupuk kimia
+
+              Kompos membuat tanaman lebih sehat tanpa bahan kimia berbahaya.
+
+              ✓ Menjaga lingkungan lebih bersih
+
+              Jika sisa makanan dipisahkan dan diolah, jumlah sampah yang tidak bermanfaat akan menurun.
+
+              3. Cara Paling Mudah Mendaur Ulang Sampah Makanan di Rumah
+              1. Kompos (Composting)
+
+              Cara paling populer dan ramah lingkungan.
+
+              Bahan yang bisa dikomposkan:
+
+              Kulit buah & sayur
+
+              Daun, rumput kering
+
+              Ampas kopi
+
+              Teh celup (yang tanpa staples)
+
+              Sisa sayur matang
+
+              Nasi (sedikit)
+
+              Cangkang telur (dihancurkan)
+
+              Bahan yang sebaiknya dihindari:
+
+              Daging & tulang besar
+
+              Minyak & makanan berlemak
+
+              Produk susu
+
+              Makanan bersaus atau pedas
+
+              Langkah sederhana membuat kompos:
+
+              Siapkan wadah/bak kompos.
+
+              Masukkan sampah makanan (bahan “basah”).
+
+              Campurkan dengan daun kering atau kardus (bahan “kering”).
+
+              Aduk seminggu sekali.
+
+              Setelah 1–3 bulan, kompos siap digunakan.
+
+              2. Membuat Eco-Enzyme
+
+              Eco-enzyme adalah cairan serbaguna hasil fermentasi sampah makanan.
+
+              Bahan:
+
+              Kulit buah (jeruk, apel, nanas)
+
+              Gula merah
+
+              Air
+
+              Manfaat:
+
+              Pembersih lantai alami
+
+              Pengusir serangga
+
+              Pupuk cair untuk tanaman
+
+              Deodoran alami
+
+              Waktu fermentasi sekitar 3 bulan, tetapi hasilnya sangat bermanfaat.
+
+              3. Pakan Ternak (Feeding)
+
+              Beberapa jenis sampah makanan bisa dijadikan pakan hewan tertentu, seperti:
+
+              Sisa sayuran → kelinci, kambing
+
+              Nasi → ayam
+
+              Buah-buahan → ikan lele atau unggas
+
+              Pastikan tidak memberikan makanan basi atau berjamur.
+
+              4. Menggunakan Mesin Pengolah Sampah Makanan
+
+              Saat ini ada alat rumah tangga yang bisa mengubah sisa makanan menjadi pupuk dalam hitungan jam.
+              Meskipun harganya cukup tinggi, metode ini sangat praktis.
+
+              4. Cara Mengurangi Sampah Makanan Sejak Awal
+
+              Daur ulang itu bagus, tapi mengurangi sampah dari awal lebih penting.
+
+              Tips mengurangi sampah makanan:
+
+              Belanja secukupnya
+
+              Simpan makanan dengan benar
+
+              Manfaatkan sisa makanan menjadi menu baru
+
+              Gunakan freezer untuk mengawetkan makanan
+
+              Pisahkan sampah makanan agar mudah diolah
+
+              Kebiasaan kecil ini dapat mengurangi sisa makanan hingga 50%.
+
+              5. Dampak Positif Daur Ulang Sampah Makanan
+
+              Jika dilakukan secara konsisten, daur ulang sampah makanan memberikan:
+
+              Tanah lebih subur dari kompos organik
+
+              Pengurangan polusi dari gas metana
+
+              Penghematan biaya rumah tangga (tidak perlu beli banyak pupuk)
+
+              Lingkungan lebih sehat dan bersih
+
+              Pemanfaatan kembali sumber daya yang sebelumnya terbuang sia-sia
+
+              Kesimpulan
+
+              Daur ulang sampah makanan bukan hanya soal mengolah sisa dapur, tetapi juga bagian dari gaya hidup berkelanjutan. Dengan memulainya di rumah, Anda membantu menjaga lingkungan, mengurangi emisi berbahaya, dan menciptakan manfaat baru dari sesuatu yang biasanya dianggap tidak berguna.`,
+              image: "Assets/Img-blog-3.png",
+            },
+            {
+              title: "Manfaat Jahe dan Manfaatnya bagi Kesehatan",
+              category: "Education",
+              description:
+                "Memahami manfaat jahe bagi Kesehatan dan cara menggunakannya.",
+              longText: `Jahe adalah salah satu tanaman herbal yang sudah digunakan selama ratusan tahun sebagai bumbu masak sekaligus bahan tradisional. Aromanya yang khas dan rasanya yang hangat membuat jahe sering dijadikan minuman, campuran makanan, hingga obat rumahan.
+
+              Selain itu, jahe memiliki berbagai manfaat yang mendukung kesehatan tubuh secara alami.
+
+              1. Membantu Menghangatkan Tubuh
+
+              Jahe memiliki efek hangat di tubuh. Minuman jahe sering digunakan untuk membantu tubuh terasa lebih nyaman, terutama saat cuaca dingin atau ketika merasa kurang fit.
+
+              2. Mendukung Kesehatan Pencernaan
+
+              Jahe dikenal dapat membantu:
+
+              Mengurangi rasa mual
+
+              Menjaga kenyamanan perut
+
+              Membantu tubuh mencerna makanan dengan lebih baik
+
+              Karena itu, jahe sering dikonsumsi setelah makan atau digunakan sebagai campuran makanan berkuah.
+
+              3. Membantu Meredakan Ketegangan Otot Ringan
+
+              Beberapa orang menggunakan jahe untuk membantu meredakan ketegangan atau rasa tidak nyaman ringan pada tubuh, terutama setelah beraktivitas atau olahraga ringan. Efek hangatnya membantu membuat tubuh lebih rileks.
+
+              4. Kaya Senyawa Antioksidan
+
+              Jahe mengandung antioksidan alami yang dapat membantu melindungi sel-sel tubuh dari paparan radikal bebas. Antioksidan ini mendukung kesehatan tubuh secara keseluruhan.
+
+              5. Mendukung Kesehatan Sistem Kekebalan Tubuh
+
+              Banyak orang mengonsumsi jahe — terutama dalam bentuk teh hangat — untuk membantu menjaga kesehatan tubuh sehari-hari. Jahe sering dikombinasikan dengan madu atau lemon untuk menambah nutrisi.
+
+              6. Membantu Meredakan Hidung Tersumbat
+
+              Aroma jahe yang kuat dan sifat hangatnya dapat membantu tubuh terasa lebih lega saat sedang mengalami hidung tersumbat ringan. Minuman jahe hangat bisa membantu membuat pernapasan terasa sedikit lebih nyaman.
+
+              7. Baik untuk Kesehatan Mulut
+
+              Jahe memiliki sifat alami yang dapat membantu menjaga kebersihan area mulut dan memberikan sensasi segar. Beberapa produk herbal bahkan memasukkan jahe sebagai salah satu ingredient.
+
+              Cara Mudah Mengonsumsi Jahe
+
+              Anda bisa menikmati jahe dalam berbagai bentuk:
+
+              Teh jahe
+
+              Wedang jahe
+
+              Jahe parut dalam masakan
+
+              Serbuk jahe
+
+              Jahe segar dalam infused water
+
+              Permen jahe (secukupnya saja)
+
+              Kesimpulan
+
+              Jahe adalah bahan alami yang kaya manfaat dan sangat mudah ditemukan. Mulai dari membantu pencernaan, menghangatkan tubuh, hingga mendukung kesehatan sehari-hari, jahe menjadi pilihan herbal yang praktis dan serbaguna.
+
+              Dengan mengonsumsi secara wajar dan sesuai kebutuhan, jahe dapat menjadi bagian dari gaya hidup sehat Anda.`,
+              image: "Assets/Img-blog-7.png",
+            },
+            {
+              title: "Dampak CO₂ terhadap Lingkungan dan Kesehatan",
+              category: "Impact",
+              description:
+                "Memahami Peran Karbon Dioksida dalam Kesehatan Global dan Lingkungan",
+              longText: `Karbon dioksida (CO₂) adalah gas alami yang dibutuhkan bumi dalam jumlah tertentu. Manusia, hewan, tumbuhan, dan bahkan proses geologi di bumi memproduksi CO₂. Namun, dalam beberapa dekade terakhir, kadar CO₂ meningkat sangat tinggi akibat aktivitas manusia — terutama dari kendaraan bermotor, industri, pembakaran hutan, dan penggunaan energi berbahan bakar fosil.
+
+              Peningkatan CO₂ ini membawa dampak besar bagi lingkungan dan kesehatan manusia.
+
+              1. Dampak CO₂ terhadap Lingkungan
+              a. Mempercepat Pemanasan Global
+
+              CO₂ adalah salah satu gas rumah kaca utama. Ketika jumlahnya berlebihan di atmosfer, ia menahan panas matahari sehingga suhu bumi meningkat. Dampaknya bisa dirasakan melalui:
+
+              Cuaca ekstrem
+
+              Gelombang panas lebih sering
+
+              Peningkatan suhu laut
+
+              Pola musim yang berubah tidak menentu
+
+              b. Meningkatkan Risiko Perubahan Iklim
+
+              Kenaikan CO₂ berperan besar dalam perubahan iklim global, seperti:
+
+              Banjir lebih sering
+
+              Kekeringan panjang
+
+              Penurunan kualitas tanah
+
+              Naiknya permukaan air laut karena mencairnya es kutub
+
+              Perubahan iklim ini memengaruhi kehidupan manusia, hewan, sampai pertanian.
+
+              c. Pengasaman Laut (Ocean Acidification)
+
+              Sebagian CO₂ diserap oleh laut. Ketika terlalu banyak, air laut menjadi lebih asam. Hal ini dapat:
+
+              Merusak terumbu karang
+
+              Mengganggu kehidupan ikan dan makhluk laut
+
+              Menurunkan hasil perikanan yang penting bagi manusia
+
+              d. Kerusakan Habitat dan Ekosistem
+
+              Suhu yang makin tinggi menyebabkan banyak hewan kesulitan beradaptasi. Beberapa spesies mulai menuju kepunahan karena perubahan lingkungan yang cepat.
+
+              2. Dampak CO₂ terhadap Kesehatan Manusia
+
+              CO₂ dalam kadar normal tidak berbahaya. Namun, jika konsentrasinya terlalu tinggi di udara atau ruang tertutup, ada beberapa dampak yang bisa dirasakan.
+
+              a. Kualitas Udara Menurun
+
+              CO₂ berlebihan di kota biasanya muncul dari:
+
+              Kendaraan
+
+              Pabrik
+
+              Pembakaran sampah
+
+              Aktivitas manusia dalam ruangan tanpa ventilasi
+
+              Kualitas udara buruk dapat memperburuk kondisi kesehatan, terutama bagi anak-anak dan lansia.
+
+              b. Gangguan Pernafasan Ringan
+
+              CO₂ bukan gas beracun, tapi angka yang tinggi dapat membuat udara terasa lebih pengap. Ini dapat menyebabkan:
+
+              Sesak ringan
+
+              Rasa tidak nyaman saat bernapas
+
+              Kepala terasa berat
+
+              Hal ini biasanya terjadi di ruangan tertutup dengan ventilasi buruk.
+
+              c. Menurunkan Konsentrasi dan Produktivitas
+
+              Di ruang kelas atau kantor dengan ventilasi kurang baik, CO₂ bisa meningkat dengan cepat. Ini menyebabkan:
+
+              Sulit fokus
+
+              Cepat mengantuk
+
+              Pusing ringan
+
+              Kinerja belajar atau kerja menurun
+
+              Itulah sebabnya ventilasi yang baik sangat penting.
+
+              d. Memperparah Efek Polusi Lain
+
+              Kadar CO₂ tinggi biasanya sejalan dengan polusi lain seperti PM2.5, asap kendaraan, dan debu. Kombinasi ini dapat memperburuk masalah pernapasan bagi sebagian orang.
+
+              3. Bagaimana Cara Mengurangi Emisi CO₂?
+
+              Setiap orang dapat membantu mengurangi CO₂, misalnya dengan:
+
+              Menggunakan transportasi umum atau bersepeda
+
+              Menanam pohon
+
+              Mengurangi penggunaan listrik
+
+              Mengurangi sampah makanan
+
+              Menggunakan barang yang bisa didaur ulang
+
+              Menghemat energi di rumah
+
+              Langkah kecil ini, bila dilakukan banyak orang, dapat memberikan dampak besar bagi lingkungan.
+
+              Kesimpulan
+
+              CO₂ adalah bagian alami dari bumi, tetapi jumlahnya yang berlebihan menjadi penyebab utama pemanasan global dan perubahan iklim. Dampaknya tidak hanya merusak lingkungan, tetapi juga mempengaruhi kesehatan manusia secara tidak langsung. Dengan memahami bahaya CO₂ dan melakukan langkah pencegahan sederhana, kita bisa membantu menjaga bumi tetap sehat dan nyaman untuk generasi berikutnya.`,
+              image: "Assets/Img-blog-5.png",
+            },
+            {
+              title: "Dampak Penggunaan Plastik terhadap Lingkungan",
+              category: "Impact",
+              description:
+                "Memahami Dampak, Tantangan, dan Solusi Pengurangan Plastik",
+              longText: `Plastik adalah bahan yang sangat praktis — ringan, kuat, murah, dan mudah digunakan dalam kehidupan sehari-hari. Namun, di balik kepraktisannya, penggunaan plastik yang berlebihan memberikan dampak besar terhadap lingkungan. Setiap tahun, jutaan ton plastik berakhir menjadi sampah yang mencemari bumi, laut, dan udara.
+
+              Artikel ini akan membahas dampak penggunaan plastik terhadap lingkungan secara lengkap dan mudah dipahami.
+
+              1. Plastik Sulit Terurai di Alam
+
+              Plastik membutuhkan ratusan tahun untuk terurai secara alami. Bahkan beberapa jenis plastik hampir tidak bisa hancur secara penuh. Akibatnya:
+
+              Sampah plastik menumpuk dari generasi ke generasi
+
+              Banyak lahan tertutup oleh sampah plastik
+
+              Volume TPA terus meningkat
+
+              Ini menjadi masalah besar karena bumi tidak bisa memproses sampah plastik secepat manusia menghasilkannya.
+
+              2. Pencemaran Laut
+
+              Salah satu dampak terbesar penggunaan plastik adalah pencemaran laut. Diperkirakan lebih dari 8 juta ton plastik masuk ke laut setiap tahun.
+
+              Dampaknya:
+
+              Hewan laut seperti penyu, ikan, dan burung bisa menelan plastik karena mengira itu makanan
+
+              Jaring plastik dapat melilit hewan dan menyebabkan luka
+
+              Mikroplastik menyebar ke seluruh rantai makanan laut
+
+              Bahkan garam laut, air minum, dan ikan yang dikonsumsi manusia kini terdeteksi mengandung mikroplastik.
+
+              3. Mikroplastik Masuk ke Rantai Makanan
+
+              Saat plastik pecah menjadi potongan sangat kecil (mikroplastik), partikel ini:
+
+              Tersebar di air
+
+              Termakan plankton
+
+              Masuk ke tubuh ikan
+
+              Hingga akhirnya dapat dikonsumsi manusia
+
+              Meskipun efek jangka panjangnya masih diteliti, keberadaan mikroplastik di tubuh manusia menjadi perhatian besar para ahli.
+
+              4. Merusak Ekosistem dan Kehidupan Satwa
+
+              Sampah plastik mengancam banyak ekosistem, terutama hutan dan pantai.
+
+              Contohnya:
+
+              Hewan darat seperti sapi, kambing, dan burung sering memakan kantong plastik
+
+              Banyak spesies mengalami cedera karena terjebak dalam sampah plastik
+
+              Ekosistem terumbu karang rusak akibat kontak dengan plastik
+
+              Kerusakan ini mengganggu keseimbangan alam.
+
+              5. Menyumbang Gas Rumah Kaca
+
+              Tidak banyak yang tahu bahwa plastik dapat menghasilkan emisi gas rumah kaca.
+
+              Produksi plastik membutuhkan minyak bumi dan gas alam
+
+              Pembakarannya menghasilkan CO₂ dan polutan lain
+
+              Plastik yang terpapar sinar matahari bisa melepaskan gas metana dan etilen
+
+              Ini mempercepat perubahan iklim dan pemanasan global.
+
+              6. Pencemaran Tanah dan Air Tanah
+
+              Plastik yang dibuang sembarangan atau tertimbun di tanah dapat:
+
+              Menghalangi penyerapan air oleh tanah
+
+              Mencemari air tanah dengan bahan kimia
+
+              Mengganggu pertumbuhan tanaman
+
+              Plastik yang mengandung bahan kimia berbahaya dapat meresap ke tanah dan masuk ke aliran air.
+
+              7. Menurunkan Kebersihan dan Keindahan Lingkungan
+
+              Tumpukan sampah plastik di jalan, sungai, dan pantai:
+
+              Merusak pemandangan
+
+              Mengurangi kualitas wisata
+
+              Mengundang hama seperti tikus dan nyamuk
+
+              Hal ini berdampak pada kesehatan masyarakat dan ekonomi lokal.
+
+              8. Limbah Plastik Menambah Beban TPA
+
+              Sebagian besar TPA di kota besar sudah hampir penuh. Plastik yang tidak terurai memperparah kondisi ini. Hasilnya:
+
+              TPA menjadi sumber bau dan polusi
+
+              Ekspansi TPA mengurangi lahan hijau
+
+              Risiko kebakaran TPA meningkat
+
+              9. Cara Mengurangi Dampak Plastik
+
+              Setiap orang bisa berkontribusi melalui langkah kecil:
+
+              Menggunakan tas belanja kain
+
+              Membawa botol minum sendiri
+
+              Menghindari sedotan plastik sekali pakai
+
+              Memilih produk dengan kemasan ramah lingkungan
+
+              Mendaur ulang plastik yang bisa didaur ulang
+
+              Mengurangi penggunaan plastik sekali pakai
+
+              Perubahan kecil ini dapat memberi dampak besar jika dilakukan bersama-sama.
+
+              Kesimpulan
+
+              Plastik memang bermanfaat, tetapi jika digunakan berlebihan dan dibuang sembarangan, dampaknya sangat merusak lingkungan. Dari pencemaran laut hingga peningkatan gas rumah kaca, plastik menjadi salah satu ancaman terbesar bagi bumi saat ini.
+
+              Solusi terbaik adalah mengurangi penggunaan plastik, memilih alternatif yang ramah lingkungan, dan mendaur ulang sebanyak mungkin. Dengan kesadaran dan tindakan kecil setiap hari, kita bisa membantu melindungi bumi untuk generasi mendatang.`,
+              image: "Assets/Img-blog-6.png",
+            },
+          ],
+
+          filteredArticles() {
+            return this.articles.filter((a) => {
+              const matchesSearch =
+                a.title.toLowerCase().includes(this.search.toLowerCase()) ||
+                a.description.toLowerCase().includes(this.search.toLowerCase());
+
+              const matchesCategory =
+                this.activeCategory === "All" ||
+                a.category === this.activeCategory;
+
+              return matchesSearch && matchesCategory;
+            });
+          },
+
+          openArticle(article) {
+            this.selectedArticle = article;
+            this.showPopup = true;
+
+            this.$nextTick(() => {
+              const popup = document.getElementById("popupScroll");
+              if (popup) popup.scrollTop = 0;
+            });
+          },
+        };
+      }
+    </script>
+  </body>
+</html>

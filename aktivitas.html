@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="Assets/Logo.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+      defer
+    ></script>
+    <title>Aktivitas Login</title>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-100" x-data="editProfile">
+    <!-- NAVBAR -->
+    <nav
+      class="w-full bg-white border-b px-6 py-4 flex items-center justify-between shadow-sm"
+    >
+      <!-- LEFT -->
+      <div
+        class="flex items-center gap-3 cursor-pointer"
+        onclick="history.back()"
+      >
+        <img src="Assets/Back.png" class="w-5" />
+        <div>
+          <h1 class="text-lg font-semibold">Aktivitas Login</h1>
+          <p class="text-sm text-gray-500 -mt-1">Lihat perangkat dan lokasi yang baru-baru ini mengakses akun Anda.</p>
+        </div>
+      </div>
+    </nav>
+    <section>
+      <div class="max-w-4xl mx-auto p-6 space-y-2">
+        <!-- TITLE -->
+        <div>
+          <h1 class="text-3xl font-bold text-gray-800">Aktivitas Login</h1>
+          <p class="text-gray-600">
+            Lihat perangkat dan lokasi yang baru-baru ini mengakses akun Anda.
+          </p>
+        </div>
+
+        <!-- SECURITY WARNING (if needed) -->
+        <div
+          class="p-4 bg-yellow-50 border border-yellow-200 rounded-xl flex gap-3"
+        >
+          <span class="text-yellow-600 text-xl">⚠</span>
+          <p class="text-yellow-700 p-1">
+            Jika Anda tidak mengenali aktivitas berikut, segera ubah kata sandi
+            Anda.
+          </p>
+        </div>
+
+        <!-- BUTTON: LOGOUT ALL DEVICES -->
+        <div x-data="deviceManager()" class="p-4">
+          
+
+          <!-- Daftar Perangkat Login -->
+          <div class="space-y-4">
+            <template x-for="dev in devices" :key="dev.id">
+              <div
+                class="p-5 bg-white rounded-xl shadow border border-gray-100 flex justify-between items-center"
+              >
+                <div>
+                  <!-- Nama Perangkat -->
+                  <h3
+                    class="font-semibold text-gray-800"
+                    x-text="dev.name"
+                  ></h3>
+
+                  <!-- Lokasi -->
+                  <p
+                    class="text-gray-600 text-sm"
+                    x-text="'Lokasi: ' + dev.location"
+                  ></p>
+
+                  <!-- Waktu Login -->
+                  <p
+                    class="text-gray-500 text-sm"
+                    x-text="'Login: ' + dev.loginTime"
+                  ></p>
+
+                  <!-- Status Badge -->
+                  <span
+                    class="inline-block mt-2 text-xs px-3 py-1 rounded-full"
+                    :class="dev.active 
+                ? 'bg-green-100 text-green-700' 
+                : 'bg-gray-200 text-gray-700'"
+                    x-text="dev.active ? 'Aktif' : 'Sesi Berakhir'"
+                  ></span>
+                </div>
+
+                <!-- Icon -->
+                <div class="text-gray-400 text-2xl" x-text="dev.icon"></div>
+              </div>
+            </template>
+            <!-- Tombol -->
+          <button
+            @click="logoutOtherDevices()"
+            class="px-4 py-2 bg-red-600 text-white rounded-lg"
+          >
+            Keluar dari Seluruh Perangkat
+          </button>
+          </div>
+
+          <!-- Popup sukses -->
+          <div
+            x-show="successPopup"
+            x-transition
+            class="fixed inset-0 bg-black/40 flex items-center justify-center"
+          >
+            <div class="bg-white p-6 rounded-xl shadow-xl text-center">
+              <p class="font-semibold text-lg mb-2">Berhasil</p>
+              <p class="text-gray-600 mb-4">
+                Semua perangkat tidak aktif telah keluar.
+              </p>
+              <button
+                @click="successPopup = false"
+                class="px-4 py-2 bg-blue-600 text-white rounded-lg"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ALPINE.JS LOGIC -->
+    <script>
+      function deviceManager() {
+        return {
+          successPopup: false,
+          devices: [
+            {
+              id: 1,
+              name: "Chrome · Windows",
+              location: "Jakarta, Indonesia",
+              loginTime: "12 Desember 2025, 10:23",
+              active: true,
+              icon: "💻",
+            },
+            {
+              id: 2,
+              name: "Safari · iPhone",
+              location: "Bekasi, Indonesia",
+              loginTime: "10 Desember 2025, 20:15",
+              active: false,
+              icon: "📱",
+            },
+            {
+              id: 3,
+              name: "Edge · Android",
+              location: "Bandung, Indonesia",
+              loginTime: "9 Desember 2025, 14:50",
+              active: false,
+              icon: "📱",
+            },
+          ],
+          logoutOtherDevices() {
+            this.devices = this.devices.filter((d) => d.active === true);
+            this.successPopup = true;
+          },
+        };
+      }
+    </script>
+  </body>
+</html>

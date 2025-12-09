@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="Assets/Logo.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+      defer
+    ></script>
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .floating-icon {
+        animation: float 3s ease-in-out infinite;
+      }
+      @keyframes float {
+        0% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-15px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+    </style>
+
+    <title>Register</title>
+  </head>
+
+  <body
+    class="bg-gray-50 text-gray-800"
+    x-data="{
+        fullName: '',
+        email: '',
+        username: '',
+        password: '',
+        confirmPassword: '',
+        showPassword1: false,
+        showPassword2: false
+    }"
+  >
+    <div class="min-h-screen flex items-center justify-center bg-gray-100 px-6">
+      <div class="absolute inset-0">
+        <img
+          src="Assets/Bg-hero-banner.png"
+          class="w-full h-[110vh] object-cover"
+        />
+      </div>
+
+      <!-- Floating Icons -->
+      <img
+        src="Assets/Icon-1.png"
+        class="floating-icon absolute top-40 left-10 lg:left-20 w-16"
+      />
+      <img
+        src="Assets/Icon-2.png"
+        class="floating-icon absolute center-30 right-10 lg:right-20 w-20"
+      />
+      <img
+        src="Assets/Icon-3.png"
+        class="floating-icon absolute md:bottom-20 bottom-0 right-30 lg:right-30 w-20"
+      />
+
+      <div
+        class="relative bg-white rounded-2xl shadow-xl p-10 w-full max-w-3xl border border-gray-200 my-5"
+      >
+        <!-- Logo -->
+        <div class="flex items-center mb-8">
+          <a href="index.html" class="inline-flex items-center gap-3">
+            <img src="Assets/Logo.png" class="w-9 h-9 object-contain" />
+            <span class="font-semibold text-gray-800 text-2xl">EcoRecycle</span>
+          </a>
+        </div>
+
+        <div class="max-w-lg mx-auto">
+          <h2 class="text-5xl font-bold text-center mb-2">Create account</h2>
+          <p class="text-center text-gray-500 mb-10">
+            Bergabunglah dengan <span class="font-bold">EcoRecycle</span> hari
+            ini dan buat pengelolaan limbah lebih cerdas.
+          </p>
+
+          <div class="space-y-3 mb-10">
+            <!-- Full Name -->
+            <input
+              type="text"
+              placeholder="Full Name"
+              class="w-full px-4 py-3 rounded-full border border-gray-300 focus:ring-2 focus:ring-emerald-500"
+              x-model="fullName"
+              id="fullName"
+            />
+
+            <!-- Email -->
+            <input
+              type="email"
+              placeholder="Email Address"
+              class="w-full px-4 py-3 rounded-full border border-gray-300 focus:ring-2 focus:ring-emerald-500"
+              x-model="email"
+              id="email"
+            />
+
+            <!-- Username -->
+            <input
+              type="text"
+              placeholder="Username"
+              class="w-full px-4 py-3 rounded-full border border-gray-300 focus:ring-2 focus:ring-emerald-500"
+              x-model="username"
+              id="username"
+            />
+
+            <!-- Password -->
+            <div class="relative">
+              <input
+                :type="showPassword1 ? 'text' : 'password'"
+                placeholder="Password"
+                class="w-full px-4 py-3 rounded-full border border-gray-300 focus:ring-2 focus:ring-emerald-500"
+                x-model="password"
+                id="password"
+              />
+              <button
+                type="button"
+                class="absolute right-4 inset-y-0 flex items-center text-gray-400"
+                @click="showPassword1 = !showPassword1"
+              >
+                <template x-if="!showPassword1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-5 h-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M2.036 12.322c2.29-4.387 6.343-7.322 9.964-7.322s7.674 2.935 9.964 7.322c-2.29 4.387-6.343 7.322-9.964 7.322s-7.674-2.935-9.964-7.322z"
+                    />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </template>
+                <template x-if="showPassword1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-5 h-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M2.036 12.322c2.29-4.387 6.343-7.322 9.964-7.322s7.674 2.935 9.964 7.322c-2.29 4.387-6.343 7.322-9.964 7.322s-7.674-2.935-9.964-7.322z"
+                    />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </template>
+              </button>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="relative">
+              <input
+                :type="showPassword2 ? 'text' : 'password'"
+                placeholder="Confirm Password"
+                class="w-full px-4 py-3 rounded-full border border-gray-300 focus:ring-2 focus:ring-emerald-500"
+                x-model="confirmPassword"
+                id="confirmPassword"
+              />
+              <button
+                type="button"
+                class="absolute right-4 inset-y-0 flex items-center text-gray-400"
+                @click="showPassword2 = !showPassword2"
+              >
+                <template x-if="!showPassword2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-5 h-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M2.036 12.322c2.29-4.387 6.343-7.322 9.964-7.322s7.674 2.935 9.964 7.322c-2.29 4.387-6.343 7.322-9.964 7.322s-7.674-2.935-9.964-7.322z"
+                    />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </template>
+                <template x-if="showPassword2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-5 h-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M2.036 12.322c2.29-4.387 6.343-7.322 9.964-7.322s7.674 2.935 9.964 7.322c-2.29 4.387-6.343 7.322-9.964 7.322s-7.674-2.935-9.964-7.322z"
+                    />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </template>
+              </button>
+            </div>
+          </div>
+
+          <!-- Register Button -->
+          <button
+            @click="
+              if (!fullName.trim() || !email.trim() || !username.trim() || !password.trim() || !confirmPassword.trim()) {
+                  alert('Semua field harus diisi!');
+                  return;
+              }
+              if (password !== confirmPassword) {
+                  alert('Password dan Confirm Password tidak cocok!');
+                  return;
+              }
+              window.location.href = 'dashboard.html';
+            "
+            class="w-full py-3 rounded-full bg-emerald-600 text-white font-semibold hover:brightness-90 transition"
+            id="register-btn"
+          >
+            Register
+          </button>
+        </div>
+
+        <!-- Divider -->
+        <div class="flex items-center my-8">
+          <span class="flex-1 border-t"></span>
+          <span class="px-4 text-gray-400">or continue with</span>
+          <span class="flex-1 border-t"></span>
+        </div>
+
+        <!-- Social Login -->
+        <div class="flex justify-center gap-6 mb-8">
+          <img src="Assets/L-google.png" class="w-10 h-10 cursor-pointer" />
+          <img src="Assets/L-apple.png" class="w-10 h-10 cursor-pointer" />
+          <img src="Assets/L-facebook.png" class="w-10 h-10 cursor-pointer" />
+        </div>
+
+        <div class="text-center text-gray-600">
+          Already have an account?
+          <a
+            href="login.html"
+            class="text-emerald-600 font-semibold hover:underline"
+          >
+            Login now
+          </a>
+        </div>
+      </div>
+    </div>
+    <script type="module">
+      import { supabase } from "./supabase.js";
+
+      document
+        .getElementById("register-btn")
+        .addEventListener("click", async () => {
+          const fullName = document.getElementById("fullName").value.trim();
+          const email = document.getElementById("email").value.trim();
+          const username = document.getElementById("username").value.trim();
+          const password = document.getElementById("password").value.trim();
+          const confirmPassword = document
+            .getElementById("confirmPassword")
+            .value.trim();
+
+          // Validasi
+          if (
+            !fullName ||
+            !email ||
+            !username ||
+            !password ||
+            !confirmPassword
+          ) {
+            alert("Semua field harus diisi!");
+            return;
+          }
+          if (password !== confirmPassword) {
+            alert("Password dan Confirm Password tidak cocok!");
+            return;
+          }
+
+          // 1️⃣ Create user in Supabase Auth
+          const { data: authData, error: authError } =
+            await supabase.auth.signUp({
+              email,
+              password,
+            });
+
+          if (authError) {
+            alert("Error: " + authError.message);
+            return;
+          }
+
+          const userId = authData.user.id;
+
+          // 2️⃣ Insert profile data
+          const { error: profileError } = await supabase
+            .from("profiles")
+            .insert({
+              id: userId,
+              full_name: fullName,
+              username: username,
+            });
+
+          if (profileError) {
+            alert("Gagal menyimpan profile: " + profileError.message);
+            return;
+          }
+
+          alert("Registrasi sukses! Silakan login.");
+          window.location.href = "login.html";
+        });
+    </script>
+  </body>
+</html>
