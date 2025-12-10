@@ -77,46 +77,7 @@
           <p class="text-gray-400 text-xs mt-1" x-text="notif.time"></p>
 
           <div class="flex gap-3 mt-3">
-            <button class="px-3 py-1 border rounded-full">View</button>
-
             <!-- Mark as Read -->
-            <button
-              class="px-3 py-1 border rounded-full text-green-600"
-              x-show="!notif.read"
-              @click="markRead(notif.id)"
-            >
-              Mark as Read
-            </button>
-
-            <!-- DELETE -->
-            <button
-              class="text-red-500 px-2 hover:text-red-700"
-              @click="deleteNotif(notif.id)"
-            >
-              🗑
-            </button>
-          </div>
-        </div>
-      </template>
-
-      <!-- ========== KEMARIN ========== -->
-      <h2 class="text-lg font-semibold mt-6 mb-3">📅 Kemarin</h2>
-
-      <template
-        x-for="notif in notifications.filter(n => n.section === 'yesterday')"
-        :key="notif.id"
-      >
-        <div
-          class="bg-white rounded-xl p-5 mb-4 shadow border transition-all"
-          :class="notif.read ? 'opacity-50' : 'opacity-100'"
-        >
-          <h3 class="font-semibold text-green-700" x-text="notif.title"></h3>
-          <p class="text-gray-600 text-sm mt-1" x-text="notif.desc"></p>
-          <p class="text-gray-400 text-xs mt-1" x-text="notif.time"></p>
-
-          <div class="flex gap-3 mt-3">
-            <button class="px-3 py-1 border rounded-full">View</button>
-
             <button
               class="px-3 py-1 border rounded-full text-green-600"
               x-show="!notif.read"
@@ -141,8 +102,9 @@
     <script>
       document.addEventListener("alpine:init", () => {
         Alpine.data("notificationApp", () => ({
-          notifications: [
-            // ==== HARI INI ====
+          notifications: [],
+
+          defaultNotifications: [
             {
               id: 1,
               title: "Poin Bertambah!",
@@ -159,41 +121,33 @@
               section: "today",
               read: false,
             },
-
-            // ==== KEMARIN ====
-            {
-              id: 3,
-              title: "Poin Bertambah!",
-              desc: "Poin tambahan untuk quiz kemarin.",
-              time: "Nov 25, 2023",
-              section: "yesterday",
-              read: true,
-            },
-            {
-              id: 4,
-              title: "Limited Merchandise Baru",
-              desc: "Merch baru sudah tersedia! Jangan sampai kehabisan.",
-              time: "Nov 25, 2023",
-              section: "yesterday",
-              read: true,
-            },
-            {
-              id: 5,
-              title: "Anda naik level",
-              desc: "Selamat! Anda telah mencapai level 2.",
-              time: "Nov 25, 2023",
-              section: "yesterday",
-              read: true,
-            },
             {
               id: 6,
               title: "Anda mendapat follower baru",
               desc: "Haidar mulai mengikuti Anda.",
               time: "Nov 25, 2023",
-              section: "yesterday",
+              section: "today",
               read: false,
             },
           ],
+
+          init() {
+            const saved = localStorage.getItem("notifications-data");
+
+            if (saved) {
+              this.notifications = JSON.parse(saved);
+            } else {
+              this.notifications = this.defaultNotifications;
+              this.save();
+            }
+          },
+
+          save() {
+            localStorage.setItem(
+              "notifications-data",
+              JSON.stringify(this.notifications)
+            );
+          },
 
           get unreadCount() {
             return this.notifications.filter((n) => !n.read).length;
@@ -201,14 +155,20 @@
 
           markAllRead() {
             this.notifications.forEach((n) => (n.read = true));
+            this.save();
           },
 
           markRead(id) {
-            let notif = this.notifications.find((n) => n.id === id);
-            if (notif) notif.read = true;
+            const notif = this.notifications.find((n) => n.id === id);
+            if (notif) {
+              notif.read = true;
+              this.save();
+            }
           },
+
           deleteNotif(id) {
             this.notifications = this.notifications.filter((n) => n.id !== id);
+            this.save();
           },
         }));
       });

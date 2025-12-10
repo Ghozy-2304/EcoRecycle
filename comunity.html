@@ -396,7 +396,7 @@
         <!-- POSTS -->
         <div class="max-w-4xl mx-auto space-y-6">
           <template x-for="(post, index) in posts" :key="index">
-            <div class="bg-white rounded-xl p-5 shadow-md">
+            <div class="bg-white rounded-xl p-5 shadow-md ">
               <div class="flex items-start gap-3 mb-3">
                 <!-- FOTO PROFILE -->
                 <img
@@ -427,9 +427,18 @@
                   >
                   </span>
                 </div>
-
+                
+                <div class="flex-box">
                 <!-- WAKTU -->
                 <p class="text-gray-400 text-sm ml-auto" x-text="post.time"></p>
+                <button
+                  x-show="post.owner === (getUserData().email ?? 'guest')"
+                  @click="deletePost(index)"
+                  class="ml-5 text-red-500 text-sm hover:text-red-700"
+                >
+                  Hapus
+                </button>
+                </div>
               </div>
               <hr />
               <h2
@@ -469,15 +478,49 @@
           user.photo || "Assets/PP.png";
 
         function postBtn() {
-          const user = getUserData(); // baca data terbaru
-          const Poin = (user.poin ?? 0) + 50; // tambah 10
+          const user = getUserData();
 
-          updateUserData({ poin: Poin }); // simpan
+          const Poin = (user.poin ?? 0) + 50; // poin biasa
+          addPoints(30); // poin level
+
+          updateUserData({ poin: Poin });
+
           document.getElementById("poin-1").textContent = `${Poin} poin`;
           document.getElementById("poin-2").textContent = `${Poin} poin`;
         }
+
+        const MAX_POINTS = 300;
+        let currentPoints = parseInt(localStorage.getItem("userPoints")) || 0;
+
+        function addPoints(amount) {
+          currentPoints = Math.min(currentPoints + amount, MAX_POINTS);
+          savePoints();
+        }
+
+        function savePoints() {
+          localStorage.setItem("userPoints", currentPoints);
+        }
+
         function communityApp() {
           return {
+            deletePost(index) {
+              const user = getUserData();
+
+              // Cek apakah yang login adalah pembuat post
+              if (this.posts[index].owner !== user.email) {
+                alert("Kamu tidak bisa menghapus post orang lain!");
+                return;
+              }
+
+              const confirmDelete = confirm("Yakin mau hapus post ini?");
+              if (!confirmDelete) return;
+
+              this.posts.splice(index, 1);
+              localStorage.setItem(
+                "communityPosts",
+                JSON.stringify(this.posts)
+              );
+            },
             showForm: false,
 
             // 🔥 Ambil data dari localStorage ATAU pakai default jika kosong
@@ -525,12 +568,13 @@
 
                 const newPost = {
                   name: user.name ?? "Guest",
+                  owner: user.email ?? "guest", // ← ini penting
                   level: user.level ?? 1,
                   category,
                   time: formatDate(),
                   title,
                   message,
-                  image: base64Image, // ← sekarang aman disimpan
+                  image: base64Image,
                   ppimage: user.ppimage ?? "Assets/PP.png",
                 };
 
@@ -555,8 +599,13 @@
         }
 
         function formatDate() {
-          let d = new Date();
-          return d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
+          const d = new Date();
+
+          const day = String(d.getDate()).padStart(2, "0");
+          const month = String(d.getMonth() + 1).padStart(2, "0"); // +1 karena 0-11
+          const year = d.getFullYear();
+
+          return `${day}-${month}-${year}`;
         }
       </script>
     </main>

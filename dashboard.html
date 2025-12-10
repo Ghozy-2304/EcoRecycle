@@ -244,7 +244,7 @@
             class="p-2 rounded-full bg-gray-100"
             onclick="window.location.href='notifikasi.html'"
           >
-            <img src="Assets/Lonceng.png" class="w-5" />
+            <img id="notifIcon" src="Assets/Lonceng.png" class="w-5" />
           </button>
 
           <!-- PROFILE BUTTON -->
@@ -459,11 +459,22 @@
             <!-- Circle Progress -->
             <div class="flex justify-center">
               <div
-                class="w-40 h-40 rounded-full border-[13px] border-gray-200 flex items-center justify-center inline-block"
+                id="circleProgress"
+                class="w-40 h-40 rounded-full flex items-center justify-center relative"
+                style="background: conic-gradient(#10b981 0deg, #e5e7eb 0deg)"
               >
-                <div class="flex flex-col items-center leading-none">
-                  <p class="text-4xl font-bold text-gray-800">0%</p>
-                  <p class="text-sm font-normal">Complete</p>
+                <div
+                  class="w-[calc(100%-26px)] h-[calc(100%-26px)] bg-white rounded-full flex items-center justify-center"
+                >
+                  <div class="flex flex-col items-center leading-none">
+                    <p
+                      id="circlePercent"
+                      class="text-4xl font-bold text-gray-800"
+                    >
+                      0%
+                    </p>
+                    <p class="text-sm font-normal">Complete</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -471,14 +482,20 @@
             <!-- Progress Card -->
             <div class="border border-gray-200 rounded-xl p-4 text-sm">
               <p class="font-semibold mb-1">
-                Progres <span id="level-4"></span>
+                Progres <span id="levelText"></span>
               </p>
+
               <div
                 class="w-full h-2 bg-gray-200 rounded-full overflow-hidden mb-1"
               >
-                <div class="h-full bg-emerald-500" style="width: 0%"></div>
+                <div
+                  id="progressBar"
+                  class="h-full bg-emerald-500 transition-all duration-500"
+                  style="width: 0%"
+                ></div>
               </div>
-              <p class="text-xs text-gray-500">0/300</p>
+
+              <p id="progressText" class="text-xs text-gray-500">0/300</p>
             </div>
 
             <!-- Reward Card -->
@@ -492,6 +509,80 @@
                 </p>
                 <p class="text-lg">Bonus 1,000 poin</p>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="mx-auto w-full md:w-[90%] p-4 md:py-6">
+        <!-- SECTION: How to earn points -->
+        <div
+          class="border border-[#FDE68A] border-[3px] rounded-2xl p-6 bg-[#FEFCE8] mb-6"
+        >
+          <!-- Title -->
+          <div class="flex items-center gap-3 mb-10">
+            <img src="Assets/bintang.png" class="w-10" />
+            <h2 class="text-2xl font-bold text-gray-800">
+              Cara Menaikkan Level
+            </h2>
+          </div>
+
+          <!-- LIST -->
+          <div class="space-y-6 text-lg">
+            <!-- ITEM -->
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="bg-emerald-600 rounded-lg">
+                  <img src="Assets/D-img.png" class="w-10" />
+                </div>
+                <p class="text-gray-700 font-medium">Upload Gambar Sampah</p>
+              </div>
+              <span
+                class="bg-emerald-600 text-white px-4 py-1 rounded-lg text-xl font-semibold w-16"
+                >20+</span
+              >
+            </div>
+
+            <!-- ITEM -->
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="bg-emerald-600 rounded-lg">
+                  <img src="Assets/D-brain.png" class="w-10" />
+                </div>
+                <p class="text-gray-700 font-medium">Selesaikan Kuis</p>
+              </div>
+              <div
+                class="bg-emerald-600 text-white px-4 py-1 rounded-lg text-xl font-semibold w-16 flex"
+              >
+                25+
+              </div>
+            </div>
+
+            <!-- ITEM -->
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="bg-emerald-600 rounded-lg">
+                  <img src="Assets/D-chat.png" class="w-10" />
+                </div>
+                <p class="text-gray-700 font-medium">Aktif Di Community</p>
+              </div>
+              <span
+                class="bg-emerald-600 text-white px-4 py-1 rounded-lg text-xl font-semibold w-16"
+                >30+</span
+              >
+            </div>
+
+            <!-- ITEM -->
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="bg-emerald-600 rounded-lg">
+                  <img src="Assets/D-book.png" class="w-10" />
+                </div>
+                <p class="text-gray-700 font-medium">Baca Artikel Edukasi</p>
+              </div>
+              <span
+                class="bg-emerald-600 text-white px-4 py-1 rounded-lg text-xl font-semibold w-16"
+                >20+</span
+              >
             </div>
           </div>
         </div>
@@ -840,15 +931,14 @@
       const user = getUserData();
 
       // Teks Halo username
-      const name = user.name ? user.name : "Guest";
-      const email = user.email ? user.email : "Guest@gmail.com";
+      const name = user.name ? user.name : "User";
+      const email = user.email ? user.email : "User@gmail.com";
       const poin = `${user.poin ?? 0}`;
       const level = `${user.level ?? 1}`;
       document.getElementById("level").textContent = `${level}`;
       document.getElementById("level-1").textContent = `Level ${level}`;
       document.getElementById("level-2").textContent = `Level ${level}`;
       document.getElementById("level-3").textContent = `Level ${level}`;
-      document.getElementById("level-4").textContent = `Level ${level}`;
       document.getElementById("poin").textContent = poin;
       document.getElementById("poin-1").textContent = `${poin} poin`;
       document.getElementById("poin-2").textContent = `${poin} poin`;
@@ -859,6 +949,77 @@
       document.getElementById("email").textContent = email;
       document.getElementById("profilePhoto").src =
         user.photo || "Assets/PP.png";
+      const notifications =
+        JSON.parse(localStorage.getItem("notifications-data")) || [];
+
+      const notifIcon = document.getElementById("notifIcon");
+
+      const unreadCount = notifications.filter((n) => !n.read).length;
+
+      if (unreadCount === 0 && notifications.length > 0) {
+        notifIcon.src = "Assets/notif.png";
+      } else {
+        notifIcon.src = "Assets/Lonceng.png";
+      }
+      window.addEventListener("focus", () => {
+        const notifications =
+          JSON.parse(localStorage.getItem("notifications-data")) || [];
+        const notifIcon = document.getElementById("notifIcon");
+
+        const unreadCount = notifications.filter((n) => !n.read).length;
+
+        notifIcon.src =
+          unreadCount === 0 && notifications.length > 0
+            ? "Assets/notif.png"
+            : "Assets/Lonceng.png";
+      });
+      const MAX_POINTS = 300;
+
+      // Ambil data dari localStorage atau pakai default
+      let currentPoints = parseInt(localStorage.getItem("userPoints")) || 0;
+
+      function updateProgress() {
+        const percent = Math.min((currentPoints / MAX_POINTS) * 100, 100);
+
+        // ===== Circle Progress =====
+        const circle = document.getElementById("circleProgress");
+        const circleText = document.getElementById("circlePercent");
+
+        circle.style.background = `conic-gradient(#10b981 ${
+          percent * 3.6
+        }deg, #e5e7eb 0deg)`;
+        circleText.textContent = `${Math.round(percent)}%`;
+
+        // ===== Bar Progress =====
+        document.getElementById("progressBar").style.width = percent + "%";
+
+        // ===== Text =====
+        document.getElementById(
+          "progressText"
+        ).textContent = `${currentPoints}/${MAX_POINTS}`;
+
+        // ===== Level logic =====
+        let level = "Beginner";
+        if (currentPoints >= 100) level = "Intermediate";
+        if (currentPoints >= 200) level = "Advanced";
+
+        document.getElementById("levelText").textContent = `(${level})`;
+      }
+
+      // Simpan points ke localStorage
+      function savePoints() {
+        localStorage.setItem("userPoints", currentPoints);
+      }
+
+      // Jalankan saat load
+      updateProgress();
+
+      // ====== Contoh: Tambah poin (untuk tes) ======
+      function addPoints(amount) {
+        currentPoints = Math.min(currentPoints + amount, MAX_POINTS);
+        savePoints();
+        updateProgress();
+      }
     </script>
   </body>
 </html>

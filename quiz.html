@@ -591,6 +591,8 @@
                   const user = getUserData(); // baca data terbaru
                   const Poin = (user.poin ?? 0) + 30; // tambah 10
 
+                  addPoints(25)
+
                   updateUserData({ poin: Poin }); // simpan
                   document.getElementById(
                     "poin-1"
@@ -611,6 +613,21 @@
             },
           }));
         });
+        const MAX_POINTS = 300;
+
+        // Ambil data dari localStorage atau pakai default
+        let currentPoints = parseInt(localStorage.getItem("userPoints")) || 0;
+
+        // Simpan points ke localStorage
+        function savePoints() {
+          localStorage.setItem("userPoints", currentPoints);
+        }
+
+        // ====== Contoh: Tambah poin (untuk tes) ======
+        function addPoints(amount) {
+          currentPoints = Math.min(currentPoints + amount, MAX_POINTS);
+          savePoints();
+        }
       </script>
     </main>
   </body>

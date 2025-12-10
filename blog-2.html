@@ -1386,6 +1386,8 @@
             const user = getUserData(); // baca data terbaru
             const Poin = (user.poin ?? 0) + 25; // tambah 10
 
+            addPoints(20);
+
             updateUserData({ poin: Poin }); // simpan
             document.getElementById("poin-1").textContent = `${Poin} poin`;
             document.getElementById("poin-2").textContent = `${Poin} poin`;
@@ -1401,6 +1403,17 @@
             });
           },
         };
+      }
+      const MAX_POINTS = 300;
+      let currentPoints = parseInt(localStorage.getItem("userPoints")) || 0;
+
+      function addPoints(amount) {
+        currentPoints = Math.min(currentPoints + amount, MAX_POINTS);
+        savePoints();
+      }
+
+      function savePoints() {
+        localStorage.setItem("userPoints", currentPoints);
       }
     </script>
   </body>

@@ -422,7 +422,8 @@
               <!-- Two Buttons -->
               <div class="flex gap-4 mt-10" x-data="mainApp()">
                 <button
-                  @click="analyze(); addPoinBtn()"
+                  @click="analyze(); addPoinBtn();"
+                  onclick="addPoints(20)"
                   class="w-full py-3 bg-[#0D9488] text-white rounded-lg font-semibold text-sm"
                 >
                   Lanjut
@@ -611,6 +612,22 @@
               document.getElementById("poin-2").textContent = `${Poin} poin`;
             },
           };
+        }
+
+        const MAX_POINTS = 300;
+
+        // Ambil data dari localStorage atau pakai default
+        let currentPoints = parseInt(localStorage.getItem("userPoints")) || 0;
+
+        // Simpan points ke localStorage
+        function savePoints() {
+          localStorage.setItem("userPoints", currentPoints);
+        }
+
+        // ====== Contoh: Tambah poin (untuk tes) ======
+        function addPoints(amount) {
+          currentPoints = Math.min(currentPoints + amount, MAX_POINTS);
+          savePoints();
         }
       </script>
     </main>
