@@ -50,25 +50,19 @@
             <a href="index.html" class="text-gray-700 hover:text-gray-900"
               >Home</a
             >
-            <a href="blog.html" class="text-gray-700 hover:text-gray-900"
-              >Blog</a
-            >
             <a href="#" class="text-gray-700 hover:text-gray-900">Contact</a>
           </nav>
 
           <!-- Right: Get Started (desktop) + Hamburger (mobile) -->
           <div class="flex items-center gap-2">
-            <a
-              href="login.html"
-              class="hidden md:inline-block px-4 py-2 rounded-full text-md hover:text-emerald-600"
-              >Masuk</a
-            >
-            <a
-              href="register.html"
-              class="hidden md:inline-block px-4 py-2 rounded-lg bg-emerald-600 text-white text-md hover:brightness-90"
-            >
-              Daftar Gratis
-            </a>
+            <div class="space-y-3 flex flex-col">
+              <a
+                href="dashboard.html"
+                class="md:inline-block px-4 py-2 rounded-lg bg-emerald-600 text-white text-md hover:brightness-90"
+              >
+                Masuk Sebagai Guest
+              </a>
+            </div>
 
             <!-- Hamburger for mobile -->
             <div class="md:hidden" x-data>
@@ -168,11 +162,6 @@
                 href="index.html"
                 class="block px-2 py-2 rounded hover:bg-gray-50"
                 >Home</a
-              >
-              <a
-                href="blog.html"
-                class="block px-2 py-2 rounded hover:bg-gray-50"
-                >Blog</a
               >
               <a href="#" class="block px-2 py-2 rounded hover:bg-gray-50"
                 >Contact</a
