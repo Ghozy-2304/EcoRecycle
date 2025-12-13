@@ -337,7 +337,7 @@
               <img src="Assets/PP.png" class="w-10 h-10 rounded-full" />
               <div>
                 <h1 class="font-semibold">Create New Post 🌟</h1>
-                <p class="text-gray-500 text-sm">Sugianto</p>
+                <p class="text-gray-500 text-sm" id="username-3"></p>
               </div>
               <!-- TOMBOL X -->
               <button
@@ -473,6 +473,7 @@
         document.getElementById("poin-2").textContent = `${poin} poin`;
         document.getElementById("username-1").textContent = name;
         document.getElementById("username-2").textContent = name;
+        document.getElementById("username-3").textContent = name;
         document.getElementById("email").textContent = email;
         document.getElementById("profilePhoto").src =
           user.photo || "Assets/PP.png";
